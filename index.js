@@ -124,7 +124,10 @@ AssetRewrite.prototype.rewriteAssetPath = function (string, assetPath, replaceme
 
     if (this.prepend && replaceString.indexOf(this.prepend) !== 0) {
       var removeLeadingRelativeOrSlashRegex = new RegExp('^(\\.*/)*(.*)$');
-      replaceString = this.prepend + removeLeadingRelativeOrSlashRegex.exec(replaceString)[2];
+      var result = removeLeadingRelativeOrSlashRegex.exec(replaceString);
+      if (result) {
+        replaceString = this.prepend + result[2];
+      }
     }
 
     newString = newString.replace(new RegExp(escapeRegExp(match[1]), 'g'), replaceString);
